@@ -38,6 +38,12 @@ class MyModel:public DNest3::Model
 		// The bursts
 		RJObject<ClassicMassInf1D> bursts;
 
+		// Time delay
+		double time_delay;
+
+		// Magnification ratio
+		double mag_ratio;
+
 		// Poisson mean
 		std::vector<double> mu;
 

@@ -43,6 +43,8 @@ void MyModel::calculate_mu()
 	const vector<double>& t = data.get_t();
 
 	double scale;
+
+	// Put in the non-delayed image
 	for(size_t i=0; i<mu.size(); i++)
 	{
 		mu[i] = background;
@@ -57,12 +59,33 @@ void MyModel::calculate_mu()
 						scale);
 		}
 	}
+
+	// Repeat, with the delayed image
+	for(size_t i=0; i<mu.size(); i++)
+	{
+		for(size_t j=0; j<components.size(); j++)
+		{
+			scale = components[j][2];
+			if(t[i] > components[j][0])
+				scale *= components[j][3];
+
+			mu[i] += mag_ratio*components[j][1]
+				*exp(-abs(t[i] -
+					(components[j][0] - time_delay)
+					)/scale);
+		}
+	}
 }
 
 void MyModel::fromPrior()
 {
 	background = exp(log(1E-3) + log(1E3)*randomU())*data.get_y_mean();
 	bursts.fromPrior();
+
+	double t_range = data.get_t_max() - data.get_t_min();
+	time_delay = t_range*(randomU() - 0.5);
+	mag_ratio = exp(randn());
+
 	calculate_mu();
 }
 
@@ -70,12 +93,35 @@ double MyModel::perturb()
 {
 	double logH = 0.;
 
-	if(randomU() <= 0.2)
+	if(randomU() <= 0.5)
 	{
-		background = log(background/data.get_y_mean());
-		background += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
-		background = mod(background - log(1E-3), log(1E3)) + log(1E-3);
-		background = exp(background)*data.get_y_mean();
+		int which = randInt(3);
+
+		if(which == 0)
+		{
+			background = log(background/data.get_y_mean());
+			background += log(1E3)*pow(10., 1.5 - 6.*randomU())
+						*randn();
+			background = mod(background - log(1E-3), log(1E3))
+						+ log(1E-3);
+			background = exp(background)*data.get_y_mean();
+		}
+		else if(which == 1)
+		{
+			double t_range = data.get_t_max() - data.get_t_min();
+			time_delay /= t_range;
+			time_delay += randh();
+			time_delay = mod(time_delay + 0.5, 1.) - 0.5;
+			time_delay *= t_range;
+		}
+		else
+		{
+			mag_ratio = log(mag_ratio);
+			logH -= -0.5*pow(mag_ratio, 2);
+			mag_ratio += randh();
+			logH += -0.5*pow(mag_ratio, 2);
+			mag_ratio = exp(mag_ratio);
+		}
 	}
 	else
 	{
@@ -100,7 +146,7 @@ double MyModel::logLikelihood() const
 
 void MyModel::print(std::ostream& out) const
 {
-	out<<background<<' ';
+	out<<background<<' '<<time_delay<<' '<<mag_ratio<<' ';
 	bursts.print(out);
 	for(size_t i=0; i<mu.size(); i++)
 		out<<mu[i]<<' ';
@@ -108,6 +154,6 @@ void MyModel::print(std::ostream& out) const
 
 string MyModel::description() const
 {
-	return string("");
+	return string("background, time delay, mag ratio");
 }
 
