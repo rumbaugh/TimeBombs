@@ -8,7 +8,7 @@ Inferring time delays from a single light curve, assuming a flaring mixture mode
 Dependencies include:
 
 * DNest3 (http://github.com/eggplantbren/DNest3)
-* RJObject (http://github.com/eggplantbren/DNest3)
+* RJObject (http://github.com/eggplantbren/RJObject)
 
     Watch this space for installation notes.
 
