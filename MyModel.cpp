@@ -1,22 +1,3 @@
-/*
-* Copyright (c) 2009, 2010, 2011, 2012 Brendon J. Brewer.
-*
-* This file is part of DNest3.
-*
-* DNest3 is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* DNest3 is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with DNest3. If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "MyModel.h"
 #include "RandomNumberGenerator.h"
 #include "Utils.h"
@@ -83,7 +64,7 @@ void MyModel::fromPrior()
 	bursts.fromPrior();
 
 	double t_range = data.get_t_max() - data.get_t_min();
-	time_delay = t_range*(randomU() - 0.5);
+	time_delay = 0.1*t_range*tan(M_PI*(randomU() - 0.5));
 	mag_ratio = exp(randn());
 
 	calculate_mu();
@@ -109,10 +90,10 @@ double MyModel::perturb()
 		else if(which == 1)
 		{
 			double t_range = data.get_t_max() - data.get_t_min();
-			time_delay /= t_range;
+			time_delay = 0.5 + atan(time_delay/(0.1*t_range))/M_PI;
 			time_delay += randh();
-			time_delay = mod(time_delay + 0.5, 1.) - 0.5;
-			time_delay *= t_range;
+			time_delay = mod(time_delay, 1.);
+			time_delay = 0.1*t_range*tan(M_PI*(time_delay - 0.5));
 		}
 		else
 		{
