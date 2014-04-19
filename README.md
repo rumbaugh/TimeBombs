@@ -5,9 +5,12 @@ Inferring time delays from a single light curve, assuming a flaring mixture mode
 
 ### Getting Started
 
-Dependencies include: DNest...
+Dependencies include:
 
-    Watch this space for installation notes
+* DNest3 (http://github.com/eggplantbren/DNest3)
+* RJObject (http://github.com/eggplantbren/DNest3)
+
+    Watch this space for installation notes.
 
 ### People, Licence, Credits etc
 
