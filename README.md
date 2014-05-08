@@ -13,13 +13,16 @@ Dependencies include:
 Watch this space for installation notes.
 
 Compile with:
+
     make
 
 Then run with:
+
     ./main -t 8
 The option causes the program to run with 8 threads.
 
 To postprocess results and create the file posterior_sample.txt:
+
     python2 showresults.py
 
 
