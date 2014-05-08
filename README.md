@@ -10,7 +10,18 @@ Dependencies include:
 * DNest3 (http://github.com/eggplantbren/DNest3)
 * RJObject (http://github.com/eggplantbren/RJObject)
 
-    Watch this space for installation notes.
+Watch this space for installation notes.
+
+Compile with:
+    make
+
+Then run with:
+    ./main -t 8
+The option causes the program to run with 8 threads.
+
+To postprocess results and create the file posterior_sample.txt:
+    python2 showresults.py
+
 
 ### People, Licence, Credits etc
 
