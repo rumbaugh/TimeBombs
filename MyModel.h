@@ -20,7 +20,7 @@
 #ifndef _MyModel_
 #define _MyModel_
 
-#include "Model.h"
+#include "dnest3/Model.h"
 #include "Data.h"
 #include "RJObject.h"
 #include "ClassicMassInf1D.h"

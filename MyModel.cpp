@@ -1,6 +1,6 @@
 #include "MyModel.h"
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
+#include "dnest3/RandomNumberGenerator.h"
+#include "dnest3/Utils.h"
 #include "Data.h"
 #include <cmath>
 #include <gsl/gsl_sf_gamma.h>

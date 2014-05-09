@@ -1,6 +1,6 @@
 #include "ClassicMassInf1D.h"
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
+#include "dnest3/RandomNumberGenerator.h"
+#include "dnest3/Utils.h"
 #include <cmath>
 
 using namespace DNest3;
