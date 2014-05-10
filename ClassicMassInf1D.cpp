@@ -85,8 +85,8 @@ double ClassicMassInf1D::log_pdf(const std::vector<double>& vec) const
 void ClassicMassInf1D::from_uniform(std::vector<double>& vec) const
 {
 	vec[0] = x_min + (x_max - x_min)*vec[0];
-	vec[1] = -mu*log(1. - vec[1]);
-	vec[2] = -mu_widths*log(1. - vec[2]);
+	vec[1] = amp_min*pow(1. - vec[1], -1./alpha_amp);
+	vec[2] = width_min*pow(1. - vec[2], -1./alpha_width);
 	vec[3] = exp(a - b + 2.*b*vec[3]);
 }
 
