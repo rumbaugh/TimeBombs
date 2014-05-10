@@ -8,7 +8,7 @@ class ClassicMassInf1D:public Distribution
 	private:
 		// Limits
 		double x_min, x_max;
-		double amp_min, amp_max;
+		double min_amp_lim1, min_amp_lim2;
 
 		// Lower limits for amplitudes and widths
 		double min_amp, min_width;
@@ -23,7 +23,7 @@ class ClassicMassInf1D:public Distribution
 
 	public:
 		ClassicMassInf1D(double x_min, double x_max,
-					double amp_min, double amp_max);
+					double min_amp_lim1, double min_amp_lim2);
 
 		void fromPrior();
 

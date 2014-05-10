@@ -6,18 +6,18 @@
 using namespace DNest3;
 
 ClassicMassInf1D::ClassicMassInf1D(double x_min, double x_max,
-					double amp_min, double amp_max)
+					double min_amp_lim1, double min_amp_lim2)
 :x_min(x_min)
 ,x_max(x_max)
-,amp_min(amp_min)
-,amp_max(amp_max)
+,min_amp_lim1(min_amp_lim1)
+,min_amp_lim2(min_amp_lim2)
 {
 
 }
 
 void ClassicMassInf1D::fromPrior()
 {
-	min_amp = exp(log(amp_min) + log(amp_max/amp_min)*randomU());
+	min_amp = exp(log(min_amp_lim1) + log(min_amp_lim2/min_amp_lim1)*randomU());
 	min_width = exp(log(1E-3*(x_max - x_min)) + log(1E3)*randomU());
 
 	alpha_amp = 0.1 + 4.9*randomU();
@@ -36,8 +36,8 @@ double ClassicMassInf1D::perturb_parameters()
 	if(which == 0)
 	{
 		min_amp = log(min_amp);
-		min_amp += log(amp_max/amp_min)*pow(10., 1.5 - 6.*randomU())*randn();
-		min_amp = mod(min_amp - log(amp_min), log(amp_max/amp_min)) + log(amp_min);
+		min_amp += log(min_amp_lim2/min_amp_lim1)*pow(10., 1.5 - 6.*randomU())*randn();
+		min_amp = mod(min_amp - log(min_amp_lim1), log(min_amp_lim2/min_amp_lim1)) + log(min_amp_lim1);
 		min_amp = exp(min_amp);
 	}
 	if(which == 1)
@@ -85,7 +85,7 @@ double ClassicMassInf1D::log_pdf(const std::vector<double>& vec) const
 void ClassicMassInf1D::from_uniform(std::vector<double>& vec) const
 {
 	vec[0] = x_min + (x_max - x_min)*vec[0];
-	vec[1] = amp_min*pow(1. - vec[1], -1./alpha_amp);
+	vec[1] = min_amp*pow(1. - vec[1], -1./alpha_amp);
 	vec[2] = min_width*pow(1. - vec[2], -1./alpha_width);
 	vec[3] = exp(a - b + 2.*b*vec[3]);
 }
@@ -93,10 +93,10 @@ void ClassicMassInf1D::from_uniform(std::vector<double>& vec) const
 void ClassicMassInf1D::to_uniform(std::vector<double>& vec) const
 {
 	vec[0] = (vec[0] - x_min)/(x_max - x_min);
-	if(vec[1] < amp_min)
+	if(vec[1] < min_amp)
 		vec[1] = 0.;
 	else
-		vec[1] = 1. - pow(amp_min/vec[1], alpha_amp);
+		vec[1] = 1. - pow(min_amp/vec[1], alpha_amp);
 	if(vec[2] < min_width)
 		vec[2] = 0.;
 	else
