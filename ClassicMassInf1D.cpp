@@ -6,19 +6,19 @@
 using namespace DNest3;
 
 ClassicMassInf1D::ClassicMassInf1D(double x_min, double x_max,
-					double mu_min, double mu_max)
+					double amp_min, double amp_max)
 :x_min(x_min)
 ,x_max(x_max)
-,mu_min(mu_min)
-,mu_max(mu_max)
+,amp_min(amp_min)
+,amp_max(amp_max)
 {
 
 }
 
 void ClassicMassInf1D::fromPrior()
 {
-	mu = exp(log(mu_min) + log(mu_max/mu_min)*randomU());
-	mu_widths = exp(log(1E-3*(x_max - x_min)) + log(1E3)*randomU());
+	min_amp = exp(log(amp_min) + log(amp_max/amp_min)*randomU());
+	min_width = exp(log(1E-3*(x_max - x_min)) + log(1E3)*randomU());
 
 	a = -10. + 10.*randomU();
 	b = 2.*randomU();
