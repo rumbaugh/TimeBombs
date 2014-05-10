@@ -31,14 +31,14 @@ double ClassicMassInf1D::perturb_parameters()
 {
 	double logH = 0.;
 
-	int which = randInt(4);
+	int which = randInt(6);
 
 	if(which == 0)
 	{
-		mu = log(mu);
-		mu += log(mu_max/mu_min)*pow(10., 1.5 - 6.*randomU())*randn();
-		mu = mod(mu - log(mu_min), log(mu_max/mu_min)) + log(mu_min);
-		mu = exp(mu);
+		min_amp = log(min_amp);
+		min_amp += log(amp_max/amp_min)*pow(10., 1.5 - 6.*randomU())*randn();
+		min_amp = mod(min_amp - log(amp_min), log(amp_max/amp_min)) + log(amp_min);
+		min_amp = exp(min_amp);
 	}
 	if(which == 1)
 	{
