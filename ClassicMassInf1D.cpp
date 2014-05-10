@@ -42,10 +42,10 @@ double ClassicMassInf1D::perturb_parameters()
 	}
 	if(which == 1)
 	{
-		mu_widths = log(mu_widths/(x_max - x_min));
-		mu_widths += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
-		mu_widths = mod(mu_widths - log(1E-3), log(1E3)) + log(1E-3);
-		mu_widths = (x_max - x_min)*exp(mu_widths);
+		min_width = log(min_width/(x_max - x_min));
+		min_width += log(1E3)*pow(10., 1.5 - 6.*randomU())*randn();
+		min_width = mod(min_width - log(1E-3), log(1E3)) + log(1E-3);
+		min_width = (x_max - x_min)*exp(min_width);
 	}
 	if(which == 2)
 	{
