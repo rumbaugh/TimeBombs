@@ -73,11 +73,12 @@ double ClassicMassInf1D::perturb_parameters()
 
 double ClassicMassInf1D::log_pdf(const std::vector<double>& vec) const
 {
-	if(vec[0] < x_min || vec[0] > x_max || vec[1] < 0. || vec[2] < 0.
+	if(vec[0] < x_min || vec[0] > x_max || vec[1] < min_amp || vec[2] < min_width
 		|| log(vec[3]) < (a-b) || log(vec[3]) > (a + b))
 		return -1E300;
 
-	return -log(mu) - vec[1]/mu - log(mu_widths) - vec[2]/mu_widths
+	return  log(alpha_amp) + alpha_amp*log(min_amp) - (alpha_amp + 1.)*log(vec[1]) + 
+		log(alpha_width) + alpha_width*log(min_width) - (alpha_width + 1.)*log(vec[2])
 			- log(2.*b*vec[3]);
 }
 
