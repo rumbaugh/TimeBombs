@@ -49,10 +49,20 @@ double ClassicMassInf1D::perturb_parameters()
 	}
 	if(which == 2)
 	{
+		alpha_amp += 4.9*randh();
+		alpha_amp = mod(alpha_amp - 0.1, 4.9) + 0.1;
+	}
+	if(which == 3)
+	{
+		alpha_width += 4.9*randh();
+		alpha_width = mod(alpha_width - 0.1, 4.9) + 0.1;
+	}
+	if(which == 4)
+	{
 		a += 20.*randh();
 		a = mod(a + 10., 20.) - 10.;
 	}
-	if(which == 3)
+	else
 	{
 		b += 2.*randh();
 		b = mod(b, 2.);
