@@ -20,6 +20,9 @@ void ClassicMassInf1D::fromPrior()
 	min_amp = exp(log(amp_min) + log(amp_max/amp_min)*randomU());
 	min_width = exp(log(1E-3*(x_max - x_min)) + log(1E3)*randomU());
 
+	alpha_amp = 0.1 + 4.9*randomU();
+	alpha_width = 0.1 + 4.9*randomU();
+
 	a = -10. + 10.*randomU();
 	b = 2.*randomU();
 }
