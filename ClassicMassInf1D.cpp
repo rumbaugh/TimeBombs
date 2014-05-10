@@ -93,8 +93,14 @@ void ClassicMassInf1D::from_uniform(std::vector<double>& vec) const
 void ClassicMassInf1D::to_uniform(std::vector<double>& vec) const
 {
 	vec[0] = (vec[0] - x_min)/(x_max - x_min);
-	vec[1] = 1. - exp(-vec[1]/mu);
-	vec[2] = 1. - exp(-vec[2]/mu_widths);
+	if(vec[1] < amp_min)
+		vec[1] = 0.;
+	else
+		vec[1] = 1. - pow(amp_min/vec[1], alpha_amp);
+	if(vec[2] < width_min)
+		vec[2] = 0.;
+	else
+		vec[2] = 1. - pow(width_min/vec[2], alpha_width);
 	vec[3] = (log(vec[3]) + b - a)/(2.*b);
 }
 
