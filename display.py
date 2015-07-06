@@ -43,4 +43,3 @@ def Display(posteriorFile='posterior_sample.txt',DataFile='Data/dummy_data.dat',
   show()
   if plotfilebase != None:
     savefig('fig.burst_positions.%s.png'%plotfilebase)
-
