@@ -58,6 +58,31 @@ void MyModel::calculate_mu()
 	}
 }
 
+
+void MyModel::calculate_mu_single()
+{
+	const vector< vector<double> >& components = bursts.get_components();
+	const vector<double>& t = data.get_t();
+
+	double scale;
+
+	// Put in the non-delayed image
+	for(size_t i=0; i<mu.size(); i++)
+	{
+		mu[i] = background;
+		for(size_t j=0; j<components.size(); j++)
+		{
+			scale = components[j][2];
+			if(t[i] > components[j][0])
+				scale *= components[j][3];
+
+			mu[i] += components[j][1]
+					*exp(-abs(t[i] - components[j][0])/
+						scale);
+		}
+	}
+}
+
 void MyModel::fromPrior()
 {
 	background = exp(log(1E-3) + log(1E3)*randomU())*data.get_y_mean();
@@ -129,6 +154,11 @@ void MyModel::print(std::ostream& out) const
 {
 	out<<background<<' '<<time_delay<<' '<<mag_ratio<<' ';
 	bursts.print(out);
+	MyModel copy = *this;
+	copy.mag_ratio=0;
+	copy.calculate_mu();
+	for(size_t i=0; i<copy.mu.size(); i++)
+		out<<copy.mu[i]<<' ';
 	for(size_t i=0; i<mu.size(); i++)
 		out<<mu[i]<<' ';
 }

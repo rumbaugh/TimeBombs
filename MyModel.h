@@ -50,6 +50,9 @@ class MyModel:public DNest3::Model
 		// Calculates mu from scratch
 		void calculate_mu();
 
+		// Calculates mu from scratch, ignoring second image
+		void calculate_mu_single();
+
 	public:
 		MyModel();
 

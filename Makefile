@@ -1,6 +1,7 @@
-CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -I${RJOBJECT_DIR}
-LIBS =  -L${RJOBJECT_DIR} -lrjobject -ldnest3 -lgsl -lgslcblas \
-	-lboost_system -lboost_thread
+CFLAGS = -O2 -Wall -Wextra -ansi -pedantic -I/home/rumbaugh/git/RJObject -I/usr/local/include
+LIBS = -L/home/rumbaugh/git/RJObject -lrjobject -L/usr/local/lib -ldnest3 \
+       -lgsl -lgslcblas \
+       -lboost_system -lboost_thread-mt
 
 default:
 	g++ $(CFLAGS) -c *.cpp
