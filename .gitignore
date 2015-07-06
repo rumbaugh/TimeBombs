@@ -3,4 +3,14 @@
 main
 TimeBombs
 logfile
-
+*OPTIONS*
+*.o
+Distributions
+*~
+RJObject*
+attic
+bkup
+*.log
+plots
+run*
+test*

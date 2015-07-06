@@ -20,7 +20,7 @@
 #ifndef _MyModel_
 #define _MyModel_
 
-#include "Model.h"
+#include "dnest3/Model.h"
 #include "Data.h"
 #include "RJObject.h"
 #include "ClassicMassInf1D.h"
@@ -49,6 +49,9 @@ class MyModel:public DNest3::Model
 
 		// Calculates mu from scratch
 		void calculate_mu();
+
+		// Calculates mu from scratch, ignoring second image
+		void calculate_mu_single();
 
 	public:
 		MyModel();

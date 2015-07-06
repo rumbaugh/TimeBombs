@@ -1,6 +1,6 @@
 #include "MyModel.h"
-#include "RandomNumberGenerator.h"
-#include "Utils.h"
+#include "dnest3/RandomNumberGenerator.h"
+#include "dnest3/Utils.h"
 #include "Data.h"
 #include <cmath>
 #include <gsl/gsl_sf_gamma.h>
@@ -54,6 +54,31 @@ void MyModel::calculate_mu()
 				*exp(-abs(t[i] -
 					(components[j][0] - time_delay)
 					)/scale);
+		}
+	}
+}
+
+
+void MyModel::calculate_mu_single()
+{
+	const vector< vector<double> >& components = bursts.get_components();
+	const vector<double>& t = data.get_t();
+
+	double scale;
+
+	// Put in the non-delayed image
+	for(size_t i=0; i<mu.size(); i++)
+	{
+		mu[i] = background;
+		for(size_t j=0; j<components.size(); j++)
+		{
+			scale = components[j][2];
+			if(t[i] > components[j][0])
+				scale *= components[j][3];
+
+			mu[i] += components[j][1]
+					*exp(-abs(t[i] - components[j][0])/
+						scale);
 		}
 	}
 }
@@ -129,6 +154,11 @@ void MyModel::print(std::ostream& out) const
 {
 	out<<background<<' '<<time_delay<<' '<<mag_ratio<<' ';
 	bursts.print(out);
+	MyModel copy = *this;
+	copy.mag_ratio=0;
+	copy.calculate_mu();
+	for(size_t i=0; i<copy.mu.size(); i++)
+		out<<copy.mu[i]<<' ';
 	for(size_t i=0; i<mu.size(); i++)
 		out<<mu[i]<<' ';
 }
