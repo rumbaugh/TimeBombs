@@ -8,10 +8,13 @@ class ClassicMassInf1D:public Distribution
 	private:
 		// Limits
 		double x_min, x_max;
-		double mu_min, mu_max;
+		double min_amp_lim1, min_amp_lim2;
 
-		// Mean of amplitudes and widths
-		double mu, mu_widths;
+		// Lower limits for amplitudes and widths
+		double min_amp, min_width;
+
+		// Pareto slopes for amplitudes and widths
+		double alpha_amp, alpha_width;
 
 		// Uniform for log-skews
 		double a, b; // Midpoint and half-width
@@ -20,7 +23,7 @@ class ClassicMassInf1D:public Distribution
 
 	public:
 		ClassicMassInf1D(double x_min, double x_max,
-					double mu_min, double mu_max);
+					double min_amp_lim1, double min_amp_lim2);
 
 		void fromPrior();
 
